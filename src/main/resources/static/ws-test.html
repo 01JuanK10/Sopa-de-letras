@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+</head>
+<body>
+
+<h2>WebSocket Test</h2>
+
+<button onclick="connect()">Conectar</button>
+<button onclick="sendMessage()">Enviar Mensaje</button>
+
+<pre id="log"></pre>
+
+<!-- IMPORTACIÓN DE STOMPJS -->
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@6.1.2/bundles/stomp.umd.js"></script>
+
+<script>
+    let client = null;
+
+    function log(msg) {
+        document.getElementById("log").textContent += msg + "\n";
+    }
+
+    function connect() {
+
+        console.log("StompJs:", StompJs);
+
+        // WebSocket nativo SIN SockJS
+        client = new StompJs.Client({
+            brokerURL: "ws://localhost:9090/websocket",  // <--- CAMBIO IMPORTANTE
+            reconnectDelay: 5000,
+            debug: msg => log(msg)
+        });
+
+        client.onConnect = () => {
+            log("Conectado al WebSocket");
+        };
+
+        client.activate();
+    }
+
+    function sendMessage() {
+        if (!client || !client.connected) {
+            log("No hay conexión activa");
+            return;
+        }
+
+        client.publish({
+            destination: "/app/score",
+            body: JSON.stringify({ message: "Hola desde el navegador!" })
+        });
+
+        log("Mensaje enviado");
+    }
+</script>
+
+</body>
+</html>
