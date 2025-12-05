@@ -13,7 +13,7 @@ RUN mvn clean package -DskipTests
 ## FASE 2: RUNTIME LIGERO Y SEGURO
 FROM eclipse-temurin:21-jre-alpine AS runtime
 
-RUN apk --no-cache add curl
+RUN apk update && apk add --no-cache shadow curl && rm -rf /var/cache/apk/*
 
 RUN groupadd -r spring && useradd -r -g spring spring
 
