@@ -4,28 +4,23 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import com.sopadeletras.player.dto.score.ScoreMessage;
+import com.sopadeletras.player.dto.score.ScoreResponse;
+import com.sopadeletras.player.service.IPlayerService;
+
+import lombok.AllArgsConstructor;
+
 @Controller
+@AllArgsConstructor
 public class ScoreController {
+
+    private final IPlayerService playerService;
 
     @MessageMapping("/score")  // El mismo destino que envías desde Angular
     @SendTo("/list/score")     // El mismo topic al que Angular se suscribe
     public ScoreResponse processScore(ScoreMessage message) {
-        System.out.println("Mensaje recibido desde Angular: " + message.getMessage());
+        System.out.println("Mensaje recibido desde Angular: " + message.name() + ", Score: " + message.score() + ", Time: " + message.time());
 
-        // Retorno al cliente
-        return new ScoreResponse("Hola Angular, recibí tu mensaje: " + message.getMessage());
-    }
-
-    // Clases DTO
-    public static class ScoreMessage {
-        private String message;
-        public String getMessage() { return message; }
-        public void setMessage(String message) { this.message = message; }
-    }
-
-    public static class ScoreResponse {
-        private String message;
-        public ScoreResponse(String message) { this.message = message; }
-        public String getMessage() { return message; }
+        return playerService.savePlayer(message);
     }
 }
