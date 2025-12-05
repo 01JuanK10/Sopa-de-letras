@@ -1,0 +1,12 @@
+.idea/
+.mvn/
+.target/
+.gitignore
+.gitattributes
+Dockerfile
+HELP.md
+mvnw
+mvnw.cmd
+src/main/resources/docker
+src/main/resources/static
+.git
