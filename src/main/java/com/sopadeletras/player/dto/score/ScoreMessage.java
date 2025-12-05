@@ -1,5 +1,5 @@
 package com.sopadeletras.player.dto.score;
 
-public record ScoreMessage(String message){
+public record ScoreMessage(String name, Integer score, Integer time) {
 
 }
