@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: "Falló el build/test de Maven en GitHub Actions"
-          to: juan_alzate82221@elpoli.edu.co
+          to: juan_alzate82221@elpoli.edu.co, sara_sanchez82221@elpoli.edu.co
           from: "GitHub Actions <${{ secrets.MAIL_USERNAME }}>"
           body: |
             Hola equipo,
