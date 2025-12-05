@@ -52,7 +52,7 @@ jobs:
       - name: Run tests
         working-directory: .
         env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/sopa-letras
+          SPRING_DATASOURCE_URL: jdbc:h2:mem:sopa_letras_test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
           SPRING_DATASOURCE_USERNAME: sopaletras
           SPRING_DATASOURCE_PASSWORD: sopaletras
           SPRING_PROFILES_ACTIVE: test
