@@ -11,6 +11,11 @@ services:
       - "5432:5432"
     networks:
       - sopaletras
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sopaletras -d sopa-letras"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4
@@ -23,6 +28,30 @@ services:
       - db
     networks:
       - sopaletras
+
+  backend:
+    build:
+      context: ../../../../
+      dockerfile: Dockerfile
+    container_name: sopa-letras
+    ports:
+      - "9090:9090"
+    expose:
+      - "9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/sopa-letras
+      SPRING_DATASOURCE_USERNAME: sopaletras
+      SPRING_DATASOURCE_PASSWORD: sopaletras
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - sopaletras
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   sopaletras:
